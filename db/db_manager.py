@@ -4,7 +4,6 @@ import pyodbc
 
 load_dotenv()
 
-
 class dbManager():
 
     def __init__(self, driver, server, db):
@@ -13,20 +12,16 @@ class dbManager():
         self.db = db
 
     def connect(self):
-        # Construye la cadena de conexión
-        conn_str = (f"Driver={os.getenv('DRIVER')};"
-                    f"Server={os.getenv('SERVER')};"
-                    f"DATABASE={os.getenv('DATABASE')};"
+        conn_str = (f"Driver={self.driver};"
+                    f"Server={self.server};"
+                    f"DATABASE={self.db};"
                     "Trusted_Connection=yes;")
         try:
             conn = pyodbc.connect(conn_str)
             print("Conexión exitosa")
+            return conn
         except pyodbc.Error as e:
             print(f"Error al conectar: {e}")
+            return None
 
-
-
-
-# Crea una instancia de la clase y llama al método connect()
-db = dbManager(os.getenv('DRIVER'), os.getenv('SERVER'), os.getenv('DATABASE'))
-db.connect()
+   # def close(self): 

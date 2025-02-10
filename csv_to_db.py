@@ -2,6 +2,7 @@ import os
 import pyodbc
 import pandas as pd
 from datetime import datetime
+from db.db_manager import dbManager
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -30,12 +31,10 @@ print('Modificaciones DataFrame realizadas.')
 
 # Me conecto a la BD y ejecuto la subida.
 print('Conectando a BD ...')
-conn_str = (f"Driver={os.getenv('DRIVER')};"
-            f"Server={os.getenv('SERVER')};"
-            f"DATABASE={os.getenv('DATABASE')};"
-            "Trusted_Connection=yes;")
-try:
-    conn = pyodbc.connect(conn_str)
+db = dbManager(os.getenv('DRIVER'), os.getenv('SERVER'), os.getenv('DATABASE'))
+conn = db.connect()
+
+if conn:
     print('Conexión exitosa.')
     cursor = conn.cursor()
 
@@ -56,6 +55,5 @@ try:
     conn.commit()
     cursor.close()
     conn.close()
-
-except pyodbc.Error as e:
-    print(f'Error al conectar {e}')
+else:
+    print('Error al conectar a la base de datos')
