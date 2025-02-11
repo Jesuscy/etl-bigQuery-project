@@ -4,6 +4,7 @@ import pyodbc
 
 load_dotenv()
 
+
 class dbManager():
 
     def __init__(self, driver, server, db):
@@ -24,4 +25,4 @@ class dbManager():
             print(f"Error al conectar: {e}")
             return None
 
-   # def close(self): 
+   # def close(self):
